@@ -1,0 +1,119 @@
+{include file="pub/_navbar"}
+{include file="pub/_sidebar"}
+
+<div class="page-header">
+    <h3 class="page-title">
+              <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                <i class="mdi mdi-shopping"></i>
+              </span>
+        商品信息
+    </h3>
+    <nav aria-label="breadcrumb">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">
+                <span></span>Overview
+                <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+            </li>
+        </ul>
+    </nav>
+</div>
+<div class="row">
+    <div class="layui-form" style="margin:0 auto;">
+        <table class="layui-table">
+            <colgroup>
+                <col width="50">
+                <col width="150">
+                <col width="200">
+                <col width="150">
+                <col width="100">
+                <col width="80">
+                <col width="80">
+                <col width="100">
+                <col width="200">
+            </colgroup>
+            <thead>
+            <tr>
+                <th><input type="checkbox"></th>
+                <th>名称</th>
+                <th>副标题</th>
+                <th>图像</th>
+                <th>规格</th>
+                <th>单价</th>
+                <th>库存</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="vo"}
+            <tr class="shop_tr">
+                <td><input type="checkbox" id="{$vo.shop_id}"></td>
+                <td>{$vo.shop_name}</td>
+                <td>{$vo.shop_title}</td>
+                <td>{$vo.shop_img}</td>
+                <td><button class="ck">查看</button>
+                <td>{$vo.shop_price}</td>
+                <td>{$vo.shop_num}</td>
+                {if condition='$vo.shop_status' eq1}
+                <td><button class="status" id="{$vo.shop_id}" name="status"><i class="mdi mdi-emoticon-devil"></i></button></td>
+                {else}
+                <td><button class="status_s" id="{$vo.shop_id}" name="status"><i class="mdi mdi-emoticon-sad"></i></button></td>
+                {/if}
+                <td>
+                    <button class="save" id="{$vo.shop_id}"><i class="mdi mdi-content-save"></i>编辑</button>&nbsp;&nbsp;&nbsp;
+                    <button class="del"  id="{$vo.shop_id}"><i class="mdi mdi-delete-forever"></i>删除</button>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- partial -->
+
+<!-- main-panel ends -->
+{include file="pub/_footer"}
+<script>
+$(document).ready(function(){
+        //查看规格
+        $(".ck").on("click",function(){
+            layer.open({
+                title: '商品规格',
+                shadeClose: true,
+                type: 1,
+                area : ['500px' , '320px'],
+                content: '<div style="padding:20px;">' +
+                '<div class="layui-row">' +
+                '<div class="layui-col-md6"><button class="layui-btn" style="width:80%;text-align: center;">颜色</button></div>' +
+                '<div class="layui-col-md6" style="float:left;"><span style="height: 38px;line-height: 38px;font-size: 16px;">测试</span></div></div>' +
+                '<div class="layui-col-md6"><button class="layui-btn" style="width:80%;text-align: center;margin-top:10px;">尺寸</button></div>' +
+                '<div class="layui-col-md6" style="float:left;margin-top:10px;"><span style="height: 38px;line-height: 38px;font-size: 16px;">测试</span></div>'+
+                '<div class="layui-col-md6"><button class="layui-btn" style="width:80%;text-align: center;margin-top:10px;">裤长</button></div>' +
+                '<div class="layui-col-md6" style="float:left;margin-top:10px;"><span style="height: 38px;line-height: 38px;font-size: 16px;">测试</span></div>'+
+                '<div class="layui-col-md6"><button class="layui-btn" style="width:80%;text-align: center;margin-top:10px;">尺寸</button></div>' +
+                '<div class="layui-col-md6" style="float:left;margin-top:10px;"><span style="height: 38px;line-height: 38px;font-size: 16px;">测试</span></div>'+
+                '<button class="layui-btn" style="width:40%;text-align: center;margin-top:20px;margin-left: 30%;">修改</button>'+
+                '</div>'
+            })
+        });
+        //ajax状态
+        $("button[name='status']").on("click",function(){
+            var id=$(this).attr('id');
+            if(!id){
+                layer.alert('请刷新页面重试',{icon:5,title:'异常'});
+                return false;
+            }
+            $.ajax({
+                url:"{:url('shop/ajax_status')}",
+                type:'POST',
+                dataType:'json',
+                data:{id:id},
+                success:function(res){
+                    if(res.status=='200'){
+                        alert(123);
+                    }
+                }
+            })
+        });
+})
+</script>

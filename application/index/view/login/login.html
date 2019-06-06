@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Shop后台管理</title>
+  <meta name="author" content="DeathGhost" />
+  <link rel="stylesheet" type="text/css" href="__STATIC__/login/css/style.css" tppabs="css/style.css" />
+  <link rel="stylesheet" type="text/css" href="__STATIC__/layui/css/layui.css">
+  <style>
+    body{height:100%;background:#16a085;overflow:hidden;}
+    canvas{z-index:-1;position:absolute;}
+  </style>
+  <script src="__STATIC__/login/js/jquery.js"></script>
+  <script src="__STATIC__/login/js/Particleground.js" tppabs="js/Particleground.js"></script>
+  <script src="__STATIC__/layui/layui.all.js"></script>
+  <script>
+      $(document).ready(function() {
+          layer.alert('请登录',{icon:5,title:'提示'});
+          $('body').particleground({
+              dotColor: '#5cbdaa',
+              lineColor: '#5cbdaa'
+          });
+      });
+  </script>
+</head>
+<body>
+<dl class="admin_login">
+  <dt>
+    <strong>后台管理系统</strong>
+    <em>backstage management system</em>
+  </dt>
+  <dd class="user_icon">
+    <input type="text" placeholder="账号" class="login_txtbx" name="admin_name"/>
+  </dd>
+  <dd class="pwd_icon">
+    <input type="password" placeholder="密码" class="login_txtbx" name="admin_pwd"/>
+  </dd>
+  <dd>
+    <input type="button" value="立即登陆" class="submit_btn" onclick="sbt()"/>
+  </dd>
+</dl>
+</body>
+<script>
+    function sbt(){
+        var admin_name = $("input[name='admin_name']").val();
+        var admin_pwd  = $("input[name='admin_pwd']").val();
+        if(!admin_name){
+            layer.alert('账号不能为空！',{icon:2});return false;
+        }
+        if(!admin_pwd){
+            layer.alert('密码不能为空！',{icon:2});return false;
+        }
+        $.ajax({
+            type:'POST',
+            url:"{:url('Login/login')}",
+            data:{admin_name:admin_name,admin_pwd:admin_pwd},
+            dataType:'json',
+            success:function(data){
+                if(!data.status == '200'){
+                    layer.alert(data.message,{icon:2});return false;
+                }
+                layer.alert(data.message,{icon:1},function(){ window.location.href="{:url('Index/index')}";});return true;
+            }
+        })
+    }
+</script>
+</html>

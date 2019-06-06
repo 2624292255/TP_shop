@@ -1,0 +1,65 @@
+<!-- partial -->
+<div class="container-fluid page-body-wrapper">
+  <!-- partial:partials/_sidebar.html -->
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item nav-profile">
+            <a href="#" class="nav-link">
+              <div class="nav-profile-image">
+                <img src="__STATIC__/images/faces/face1.jpg" alt="profile">
+                <span class="login-status online"></span> <!--change to offline or busy as needed-->              
+              </div>
+              <div class="nav-profile-text d-flex flex-column">
+                <span class="font-weight-bold mb-2">David Grey. H</span>
+                <span class="text-secondary text-small">Project Manager</span>
+              </div>
+              <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+            </a>
+          </li>
+          {volist name='menu' id='vo'}
+          {empty name="$vo.menus"}
+          <li class="nav-item">
+            <a class="nav-link" href="/">
+              <span class="menu-title">{$vo.menu_name}</span>
+              <i class="{$vo.menu_icon}"></i>
+            </a>
+          </li>
+          {/empty}
+          {notempty name="$vo.menus"}
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#{$vo.menu_href}" aria-expanded="false" aria-controls="ui-basic">
+              <span class="menu-title">{$vo.menu_name}</span>
+              <i class="menu-arrow"></i>
+              <i class="{$vo.menu_icon}" style="color:#BEABC2"></i>
+            </a>
+            <div class="collapse" id="{$vo.menu_href}">
+              <ul class="nav flex-column sub-menu">
+                {volist name="$vo['menus']" id="voo"}
+                <li class="nav-item"> <a class="nav-link" href="{:url($voo.menu_action)}">{$voo.menu_name}</a></li>
+                {/volist}
+              </ul>
+            </div>
+          </li>
+          {/notempty}
+          {/volist}
+          <li class="nav-item sidebar-actions">
+            <span class="nav-link">
+              <div class="border-bottom">
+                <h6 class="font-weight-normal mb-3">Projects</h6>                
+              </div>
+              <button class="btn btn-block btn-lg btn-gradient-primary mt-4">+ Add a project</button>
+              <div class="mt-4">
+                <div class="border-bottom">
+                  <p class="text-secondary">Categories</p>                  
+                </div>
+                <ul class="gradient-bullet-list mt-4">
+                  <li>Free</li>
+                  <li>Pro</li>
+                </ul>
+              </div>
+            </span>
+          </li>
+        </ul>
+      </nav>
+  <div class="main-panel">
+    <div class="content-wrapper">
